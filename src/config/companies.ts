@@ -1,58 +1,25 @@
 import type { Company } from "@/types";
 
+/**
+ * Empresas cadastradas na plataforma TrevoOne.
+ * A arquitetura é multiempresa — a interface esconde a seleção
+ * automaticamente enquanto houver apenas uma empresa disponível.
+ */
 export const companies: Company[] = [
   {
-    id: "trevo-fit",
-    slug: "trevo-fit",
-    name: "Trevo Fit",
-    description: "Performance, treino e bem-estar em um só lugar.",
-    category: "Academia Premium",
-    color: "#2E7D32",
-    gradient: ["#1B5E20", "#43A047"],
-    logoInitial: "T",
-    city: "São Paulo · SP",
-    students: 1284,
-    status: "active",
-    bannerLabel: "Mais popular",
-  },
-  {
-    id: "vitta-clinic",
-    slug: "vitta-clinic",
-    name: "Vitta Clinic",
-    description: "Clínica de saúde integrada — corpo, mente e rotina.",
-    category: "Clínica",
-    color: "#0F766E",
-    gradient: ["#0F766E", "#14B8A6"],
-    logoInitial: "V",
+    id: "saiya-shape",
+    slug: "saiya-shape",
+    name: "Saiya Shape",
+    description: "Transformação Física • Saúde • Performance",
+    category: "Consultoria Premium",
+    color: "#F97316",
+    gradient: ["#B45309", "#F97316"],
+    logoInitial: "S",
     city: "Curitiba · PR",
-    students: 462,
+    students: 0,
     status: "active",
-  },
-  {
-    id: "nutri-life",
-    slug: "nutri-life",
-    name: "NutriLife",
-    description: "Consultoria nutricional personalizada e humana.",
-    category: "Nutrição",
-    color: "#65A30D",
-    gradient: ["#65A30D", "#A3E635"],
-    logoInitial: "N",
-    city: "Belo Horizonte · MG",
-    students: 318,
-    status: "active",
-  },
-  {
-    id: "trevo-coach",
-    slug: "trevo-coach",
-    name: "Trevo Coach",
-    description: "Consultoria de performance para atletas amadores.",
-    category: "Consultoria",
-    color: "#166534",
-    gradient: ["#166534", "#22C55E"],
-    logoInitial: "C",
-    city: "Florianópolis · SC",
-    students: 96,
-    status: "beta",
-    bannerLabel: "Beta",
   },
 ];
+
+export const defaultCompany = companies[0];
+export const hasSingleCompany = companies.length === 1;
