@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import logoUrl from "@/assets/logo.png";
 
 export function Logo({
   className,
@@ -8,27 +9,34 @@ export function Logo({
 }: {
   className?: string;
   showText?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   tone?: "auto" | "light";
 }) {
-  const box = size === "lg" ? "h-12 w-12" : size === "sm" ? "h-9 w-9" : "h-11 w-11";
-  const icon = size === "lg" ? "h-7 w-7" : size === "sm" ? "h-5 w-5" : "h-6 w-6";
-  const name = size === "lg" ? "text-lg" : "text-base";
+  const box =
+    size === "xl" ? "h-20 w-20" : size === "lg" ? "h-14 w-14" : size === "sm" ? "h-9 w-9" : "h-11 w-11";
+  const name = size === "xl" ? "text-xl" : size === "lg" ? "text-lg" : "text-base";
   const light = tone === "light";
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div className={cn("grid place-items-center rounded-2xl gradient-primary shadow-[var(--shadow-glow)]", box)}>
-        <svg viewBox="0 0 32 32" className={cn(icon, "text-primary-foreground")} fill="currentColor" aria-hidden>
-          <path d="M16 4c-2 3-6 4-6 8a6 6 0 0 0 6 6 6 6 0 0 0 6-6c0-4-4-5-6-8Z" />
-          <circle cx="9" cy="20" r="4" opacity=".85" />
-          <circle cx="23" cy="20" r="4" opacity=".85" />
-          <rect x="15" y="21" width="2" height="7" rx="1" opacity=".75" />
-        </svg>
-      </div>
+      <img
+        src={logoUrl}
+        alt="TrevoOne"
+        className={cn("shrink-0 object-contain", box)}
+        draggable={false}
+      />
       {showText && (
         <div className="leading-tight">
-          <div className={cn("font-bold tracking-tight", name, light ? "text-white" : "text-foreground")}>TrevoOne</div>
-          <div className={cn("text-[10px] uppercase tracking-[0.18em]", light ? "text-white/75" : "text-muted-foreground")}>Health OS</div>
+          <div className={cn("font-bold tracking-tight", name, light ? "text-white" : "text-foreground")}>
+            TrevoOne
+          </div>
+          <div
+            className={cn(
+              "text-[10px] uppercase tracking-[0.18em]",
+              light ? "text-white/75" : "text-muted-foreground",
+            )}
+          >
+            HEALTH OS
+          </div>
         </div>
       )}
     </div>
