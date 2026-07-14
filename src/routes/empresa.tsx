@@ -84,50 +84,44 @@ function EmpresaPage() {
                 animate={{
                   opacity: dim ? 0.35 : 1,
                   y: 0,
-                  scale: isSelecting ? 1.03 : 1,
+                  scale: isSelecting ? 1.02 : 1,
                 }}
                 transition={{ delay: i * 0.06, duration: 0.35 }}
-                whileHover={{ y: -3, scale: 1.02 }}
+                whileHover={{ y: -4 }}
                 whileTap={{ scale: 0.99 }}
                 disabled={!!selectingId}
                 className={cn(
-                  "group relative w-full text-left overflow-hidden rounded-3xl border border-border/60 bg-card",
-                  "transition-shadow duration-300 hover:shadow-[var(--shadow-elevated)]",
+                  "group relative isolate w-full text-left rounded-3xl border border-border/60 bg-card overflow-hidden",
+                  "transition-all duration-300 hover:shadow-[var(--shadow-elevated)] hover:border-primary/30",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 )}
                 aria-label={`Entrar em ${c.name}`}
               >
-                {/* Banner discreto no topo */}
+                {/* Banner (contido dentro do card) */}
                 <div
-                  className="h-16 w-full relative"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})`,
-                  }}
+                  aria-hidden
+                  className="relative h-20 w-full"
+                  style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
                 >
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_20%_10%,white,transparent_45%),radial-gradient(circle_at_85%_90%,white,transparent_40%)]"
-                  />
+                  <div className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_20%_10%,white,transparent_45%),radial-gradient(circle_at_85%_90%,white,transparent_40%)]" />
                   {c.bannerLabel && (
-                    <span className="absolute top-3 right-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-foreground">
+                    <span className="absolute top-3 right-3 rounded-full bg-white/90 backdrop-blur px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-foreground">
                       {c.bannerLabel}
                     </span>
                   )}
                 </div>
 
-                {/* Logo flutuante */}
-                <div className="px-6 -mt-8 flex items-start justify-between">
+                {/* Header: logo + status */}
+                <div className="px-5 -mt-7 flex items-start justify-between gap-3">
                   <span
-                    className="grid h-16 w-16 place-items-center rounded-2xl text-white text-2xl font-bold shadow-[var(--shadow-elevated)] ring-4 ring-card"
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})`,
-                    }}
+                    className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl text-white text-xl font-bold shadow-[var(--shadow-elevated)] ring-4 ring-card"
+                    style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
                   >
                     {c.logoInitial}
                   </span>
                   <span
                     className={cn(
-                      "mt-10 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                      "mt-8 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
                       st.className,
                     )}
                   >
@@ -135,29 +129,27 @@ function EmpresaPage() {
                   </span>
                 </div>
 
-                <div className="px-6 pt-4 pb-6">
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-md bg-accent/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
-                      {c.category}
-                    </span>
-                  </div>
-                  <h3 className="mt-3 text-xl font-bold text-foreground">{c.name}</h3>
+                <div className="px-5 pt-3 pb-5">
+                  <span className="inline-block rounded-md bg-accent/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+                    {c.category}
+                  </span>
+                  <h3 className="mt-2.5 text-lg font-bold text-foreground truncate">{c.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                     {c.description}
                   </p>
 
-                  <div className="mt-5 pt-4 border-t border-border/60 grid grid-cols-[1fr_auto] items-center gap-4">
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground min-w-0">
-                      <span className="inline-flex items-center gap-1">
-                        <Users className="h-3.5 w-3.5" /> {c.students.toLocaleString("pt-BR")} alunos
+                  <div className="mt-4 pt-4 border-t border-border/60 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground min-w-0">
+                      <span className="inline-flex items-center gap-1 shrink-0">
+                        <Users className="h-3.5 w-3.5" /> {c.students.toLocaleString("pt-BR")}
                       </span>
-                      <span className="inline-flex items-center gap-1 truncate">
-                        <MapPin className="h-3.5 w-3.5" /> {c.city}
+                      <span className="inline-flex items-center gap-1 min-w-0">
+                        <MapPin className="h-3.5 w-3.5 shrink-0" />
+                        <span className="truncate">{c.city}</span>
                       </span>
                     </div>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
-                      Entrar
-                      <ArrowRight className="h-3.5 w-3.5" />
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary shrink-0 group-hover:gap-2 transition-all">
+                      Entrar <ArrowRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
                 </div>
@@ -166,7 +158,7 @@ function EmpresaPage() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="absolute inset-0 grid place-items-center bg-primary/10 backdrop-blur-[2px]"
+                    className="absolute inset-0 grid place-items-center bg-primary/10 backdrop-blur-[2px] rounded-3xl"
                   >
                     <span className="rounded-full bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 shadow-[var(--shadow-glow)]">
                       Selecionando…

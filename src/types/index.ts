@@ -162,3 +162,68 @@ export interface TodayDTO {
   announcements: AnnouncementDTO[];
   achievement: AchievementDTO;
 }
+
+/* ============================================================
+ * Jornada (/jornada) — DTOs
+ * ============================================================ */
+
+export type TimelineEventKind =
+  | "workout"
+  | "photo"
+  | "meal-plan"
+  | "assessment"
+  | "goal"
+  | "checkin"
+  | "note";
+
+export interface TimelineEventDTO {
+  id: string;
+  kind: TimelineEventKind;
+  title: string;
+  description?: string;
+  dateISO: string;
+}
+
+export interface EvolutionPointDTO {
+  dateISO: string;
+  value: number;
+}
+
+export interface EvolutionMetricDTO {
+  key: "weight" | "bodyFat" | "muscleMass" | "bmi";
+  label: string;
+  unit: string;
+  latest: number;
+  delta: number;
+  series: EvolutionPointDTO[];
+}
+
+export interface ProgressPhotoDTO {
+  id: string;
+  beforeUrl: string;
+  afterUrl: string;
+  beforeDateISO: string;
+  afterDateISO: string;
+  label: string;
+}
+
+export interface HabitDTO {
+  key: "water" | "sleep" | "steps" | "checkin";
+  label: string;
+  emoji: string;
+  value: number;
+  target: number;
+  unit: string;
+}
+
+export interface JourneyDetailDTO {
+  hero: JourneyDTO;
+  timeline: TimelineEventDTO[];
+  evolution: EvolutionMetricDTO[];
+  achievements: AchievementDTO[];
+  goalCurrent: GoalDTO;
+  goalNext: GoalDTO;
+  photos: ProgressPhotoDTO[];
+  habits: HabitDTO[];
+  agenda: AgendaItemDTO[];
+}
