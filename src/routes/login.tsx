@@ -21,7 +21,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/common/Logo";
 import { ThemeSwitch } from "@/components/common/ThemeSwitch";
-import { hasSingleCompany, defaultCompany, companies } from "@/config/companies";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
@@ -32,25 +31,21 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const navigate = useNavigate();
   const company = useCompanyStore((s) => s.current);
-  const select = useCompanyStore((s) => s.select);
   const { login } = useAuth();
   const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Auto-seleção quando existir apenas uma empresa
+  // Sempre exige seleção prévia no portal
   useEffect(() => {
-    if (!company) {
-      if (hasSingleCompany) select(defaultCompany);
-      else navigate({ to: "/empresa", replace: true });
-    }
-  }, [company, select, navigate]);
+    if (!company) navigate({ to: "/empresa", replace: true });
+  }, [company, navigate]);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      companyId: company?.id ?? defaultCompany?.id ?? "",
+      companyId: company?.id ?? "",
       username: "",
       password: "",
       remember: true,
@@ -58,16 +53,18 @@ function LoginPage() {
   });
 
   const onSubmit = form.handleSubmit(async (values) => {
+    if (!company) return;
     setSubmitting(true);
     setSubmitError(null);
     try {
-      await login({ ...values, companyId: company?.id ?? defaultCompany.id });
+      await login({ ...values, companyId: company.id });
       setSucceeded(true);
     } catch {
-      setSubmitError("Credenciais inválidas ou serviço indisponível. Tente novamente.");
+      setSubmitError("Usuário ou senha inválidos. Tente novamente.");
       toast.error("Não foi possível entrar.");
       setSubmitting(false);
     }
+
   });
 
   if (!company) return null;
