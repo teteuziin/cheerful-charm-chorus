@@ -3,7 +3,6 @@ import { AppShell } from "@/components/layouts/AppShell";
 import { useAuthStore } from "@/store/authStore";
 import { useCompanyStore } from "@/store/companyStore";
 import { useEffect } from "react";
-import { hasSingleCompany } from "@/config/companies";
 
 export const Route = createFileRoute("/_app")({
   ssr: false,
@@ -12,7 +11,7 @@ export const Route = createFileRoute("/_app")({
     const state = useAuthStore.getState();
     const company = useCompanyStore.getState().current;
     if (!state.isAuthenticated) {
-      throw redirect({ to: company || hasSingleCompany ? "/login" : "/empresa" });
+      throw redirect({ to: company ? "/login" : "/empresa" });
     }
   },
   component: AppLayout,
@@ -26,10 +25,7 @@ function AppLayout() {
 
   useEffect(() => {
     if (isReady && !isAuthenticated) {
-      navigate({
-        to: company || hasSingleCompany ? "/login" : "/empresa",
-        replace: true,
-      });
+      navigate({ to: company ? "/login" : "/empresa", replace: true });
     }
   }, [isReady, isAuthenticated, company, navigate]);
 
