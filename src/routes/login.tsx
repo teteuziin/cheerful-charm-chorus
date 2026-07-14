@@ -1,10 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { AlertCircle, ArrowRight, Eye, EyeOff, Loader2, ShieldCheck, Sparkles } from "lucide-react";
 import { loginSchema, type LoginFormValues } from "@/utils/validators";
 import { useCompanyStore } from "@/store/companyStore";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,7 +14,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/common/Logo";
 import { ThemeSwitch } from "@/components/common/ThemeSwitch";
-import { useEffect } from "react";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
@@ -28,6 +27,7 @@ function LoginPage() {
   const { login } = useAuth();
   const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!company) navigate({ to: "/empresa", replace: true });
@@ -45,79 +45,122 @@ function LoginPage() {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setSubmitting(true);
+    setSubmitError(null);
     try {
       await login({ ...values, companyId: company?.id ?? values.companyId });
     } catch {
-      toast.error("Não foi possível entrar. Tente novamente.");
+      setSubmitError("Credenciais inválidas ou serviço indisponível. Tente novamente.");
+      toast.error("Não foi possível entrar.");
     } finally {
       setSubmitting(false);
     }
   });
 
   if (!company) return null;
+  const grad = company.gradient ?? [company.color, company.color];
 
   return (
-    <div className="min-h-dvh grid lg:grid-cols-2 bg-background">
-      {/* Left: brand panel */}
-      <aside className="hidden lg:flex relative flex-col justify-between p-10 overflow-hidden bg-gradient-to-br from-primary via-primary to-primary-glow text-primary-foreground">
-        <div className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_20%_10%,white,transparent_40%),radial-gradient(circle_at_80%_90%,white,transparent_35%)]" />
-        <div className="relative">
+    <div className="min-h-dvh w-full overflow-x-hidden bg-background lg:grid lg:grid-cols-[1.05fr_1fr]">
+      {/* Hero */}
+      <aside
+        className="relative overflow-hidden text-white px-6 md:px-10 lg:px-14 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-12 lg:min-h-dvh lg:flex lg:flex-col lg:justify-between"
+        style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]} 0%, ${grad[1]} 100%)` }}
+      >
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-40 [background:radial-gradient(circle_at_15%_10%,white,transparent_40%),radial-gradient(circle_at_85%_85%,white,transparent_45%)]"
+        />
+        <div className="relative flex items-center justify-between">
           <Logo />
+          <div className="lg:hidden">
+            <ThemeSwitch />
+          </div>
         </div>
-        <div className="relative">
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
+
+        <div className="relative mt-8 lg:mt-0 max-w-lg">
+          <motion.span
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-bold tracking-tight leading-tight max-w-md"
+            className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]"
           >
-            Sua saúde, sua performance, seu tempo — organizados.
-          </motion.h2>
-          <p className="mt-4 text-primary-foreground/80 max-w-md">
-            Uma plataforma única para conectar você e sua equipe de saúde de forma premium, moderna e humana.
-          </p>
+            <Sparkles className="h-3.5 w-3.5" /> Sua jornada continua
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]"
+          >
+            Bem-vindo novamente <span className="inline-block">👋</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mt-4 text-base md:text-lg text-white/90 max-w-md"
+          >
+            Continue sua jornada de evolução. Uma plataforma feita para conectar você e sua equipe
+            de saúde de forma premium, moderna e humana.
+          </motion.p>
+
+          <div className="hidden lg:flex mt-10 items-center gap-3 text-sm text-white/85">
+            <ShieldCheck className="h-4 w-4" />
+            Acesso seguro e criptografado
+          </div>
         </div>
-        <div className="relative text-xs text-primary-foreground/70">© {new Date().getFullYear()} TrevoOne</div>
+
+        <div className="hidden lg:block relative text-xs text-white/70">
+          © {new Date().getFullYear()} TrevoOne
+        </div>
       </aside>
 
-      {/* Right: form */}
-      <section className="flex flex-col">
-        <div className="flex items-center justify-between p-4 md:p-6">
-          <div className="lg:hidden"><Logo /></div>
-          <div className="ml-auto"><ThemeSwitch /></div>
+      {/* Form */}
+      <section className="relative flex flex-col pb-[env(safe-area-inset-bottom)]">
+        <div className="hidden lg:flex items-center justify-end px-6 md:px-10 py-5">
+          <ThemeSwitch />
         </div>
 
-        <div className="flex-1 grid place-items-center px-4 md:px-6 pb-10">
-          <div className="w-full max-w-md">
+        <div className="flex-1 grid place-items-center px-4 md:px-6 py-8 lg:py-10">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full max-w-md"
+          >
+            {/* Company chip */}
             <div className="mb-6 flex items-center gap-3 rounded-2xl border border-border/60 bg-surface p-3">
               <span
-                className="grid h-10 w-10 place-items-center rounded-xl text-white text-sm font-semibold"
-                style={{ backgroundColor: company.color }}
+                className="grid h-11 w-11 place-items-center rounded-xl text-white text-sm font-bold shrink-0 shadow-[var(--shadow-soft)]"
+                style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
               >
                 {company.logoInitial}
               </span>
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-semibold text-foreground truncate">{company.name}</div>
-                <div className="text-xs text-muted-foreground truncate">{company.description}</div>
+                <div className="text-xs text-muted-foreground truncate">{company.category}</div>
               </div>
               <Link
                 to="/empresa"
-                className="text-xs font-medium text-primary hover:underline shrink-0"
+                className="text-xs font-semibold text-primary hover:underline shrink-0"
               >
                 Trocar
               </Link>
             </div>
 
-            <h1 className="text-h2 text-foreground">Entrar</h1>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Entrar</h2>
             <p className="mt-1 text-sm text-muted-foreground">Acesse sua jornada TrevoOne.</p>
 
-            <form onSubmit={onSubmit} className="mt-6 space-y-4">
+            <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate>
               <div className="space-y-1.5">
                 <Label htmlFor="username">Usuário ou e-mail</Label>
                 <Input
                   id="username"
                   autoComplete="username"
+                  inputMode="email"
                   placeholder="voce@empresa.com"
+                  className="h-11"
                   {...form.register("username")}
+                  aria-invalid={!!form.formState.errors.username}
                 />
                 {form.formState.errors.username && (
                   <p className="text-xs text-destructive">{form.formState.errors.username.message}</p>
@@ -129,7 +172,7 @@ function LoginPage() {
                   <Label htmlFor="password">Senha</Label>
                   <button
                     type="button"
-                    className="text-xs text-primary hover:underline"
+                    className="text-xs font-medium text-primary hover:underline"
                     onClick={() => toast.message("Recuperação de senha disponível em breve.")}
                   >
                     Esqueci minha senha
@@ -141,13 +184,15 @@ function LoginPage() {
                     type={showPw ? "text" : "password"}
                     autoComplete="current-password"
                     placeholder="••••••••"
+                    className="h-11 pr-11"
                     {...form.register("password")}
+                    aria-invalid={!!form.formState.errors.password}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPw((v) => !v)}
                     aria-label={showPw ? "Ocultar senha" : "Mostrar senha"}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-muted-foreground hover:text-foreground rounded-md"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 grid h-8 w-8 place-items-center text-muted-foreground hover:text-foreground rounded-md"
                   >
                     {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -157,7 +202,7 @@ function LoginPage() {
                 )}
               </div>
 
-              <label className="flex items-center gap-2 text-sm text-foreground/80">
+              <label className="flex items-center gap-2 text-sm text-foreground/80 select-none">
                 <Checkbox
                   checked={form.watch("remember")}
                   onCheckedChange={(v) => form.setValue("remember", Boolean(v))}
@@ -165,16 +210,43 @@ function LoginPage() {
                 Lembrar acesso neste dispositivo
               </label>
 
-              <Button type="submit" disabled={submitting} className="w-full h-11 text-sm font-semibold">
-                {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Entrar
-              </Button>
+              {submitError && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  role="alert"
+                  className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-xs text-destructive"
+                >
+                  <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
+                  <span>{submitError}</span>
+                </motion.div>
+              )}
+
+              <motion.div whileTap={{ scale: 0.99 }}>
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="group w-full h-12 rounded-full text-sm font-semibold shadow-[var(--shadow-glow)]"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Entrando…
+                    </>
+                  ) : (
+                    <>
+                      Entrar na Jornada
+                      <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </>
+                  )}
+                </Button>
+              </motion.div>
 
               <p className="text-center text-xs text-muted-foreground">
                 Nesta fase de demonstração, qualquer usuário e senha são aceitos.
               </p>
             </form>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>
