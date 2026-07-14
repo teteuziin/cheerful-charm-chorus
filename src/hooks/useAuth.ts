@@ -5,7 +5,6 @@ import { mockLogin, type LoginPayload } from "@/services/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { useUserStore } from "@/store/userStore";
 import { useCompanyStore } from "@/store/companyStore";
-import { hasSingleCompany, defaultCompany } from "@/config/companies";
 
 export function useAuth() {
   const navigate = useNavigate();
@@ -13,7 +12,6 @@ export function useAuth() {
   const clear = useAuthStore((s) => s.clear);
   const setProfile = useUserStore((s) => s.setProfile);
   const clearCompany = useCompanyStore((s) => s.clear);
-  const selectCompany = useCompanyStore((s) => s.select);
 
   const login = useCallback(
     async (payload: LoginPayload) => {
@@ -29,16 +27,10 @@ export function useAuth() {
   const logout = useCallback(() => {
     clear();
     setProfile(null);
-    if (hasSingleCompany) {
-      selectCompany(defaultCompany);
-      toast.message("Sessão encerrada");
-      navigate({ to: "/login" });
-    } else {
-      clearCompany();
-      toast.message("Sessão encerrada");
-      navigate({ to: "/empresa" });
-    }
-  }, [clear, clearCompany, selectCompany, navigate, setProfile]);
+    clearCompany();
+    toast.message("Sessão encerrada");
+    navigate({ to: "/empresa" });
+  }, [clear, clearCompany, navigate, setProfile]);
 
   return { login, logout };
 }

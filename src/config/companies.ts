@@ -1,11 +1,12 @@
-import type { Company } from "@/types";
+import type { Organization } from "@/types";
 
 /**
- * Empresas cadastradas na plataforma TrevoOne.
- * Arquitetura multiempresa — a interface esconde a seleção
- * automaticamente enquanto houver apenas uma empresa disponível.
+ * Organizações cadastradas no ecossistema TrevoOne.
+ * Arquitetura preparada para múltiplas categorias: academias,
+ * consultorias, personal trainers, nutricionistas, clínicas e
+ * centros esportivos.
  */
-export const companies: Company[] = [
+export const organizations: Organization[] = [
   {
     id: "saiya-shape",
     slug: "saiya-shape",
@@ -15,11 +16,15 @@ export const companies: Company[] = [
     color: "#F97316",
     gradient: ["#B45309", "#F97316"],
     logoInitial: "S",
-    city: "Salvador · BA",
+    city: "Salvador - Bahia",
     students: 0,
     status: "active",
   },
 ];
 
-export const defaultCompany = companies[0];
-export const hasSingleCompany = companies.length === 1;
+export const defaultOrganization = organizations[0];
+
+// Compat com a arquitetura anterior
+export const companies = organizations;
+export const defaultCompany = defaultOrganization;
+export const hasSingleCompany = organizations.length === 1;

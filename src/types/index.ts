@@ -1,29 +1,38 @@
 // TrevoOne — domain interfaces (preparadas para Laravel + MySQL, sem conexão nesta fase)
 
-export type CompanyCategory =
+export type OrganizationCategory =
   | "Consultoria Premium"
   | "Academia Premium"
   | "Consultoria"
+  | "Personal Trainer"
   | "Nutrição"
-  | "Clínica";
+  | "Clínica"
+  | "Centro Esportivo";
 
-export type CompanyStatus = "active" | "beta" | "coming-soon";
+export type OrganizationStatus = "active" | "beta" | "coming-soon";
 
-export interface Company {
+export interface Organization {
   id: string;
   slug: string;
   name: string;
   description: string;
-  category: CompanyCategory;
+  category: OrganizationCategory;
   color: string;
   gradient?: [string, string];
   logoInitial: string;
   logoUrl?: string;
   city: string;
   students: number;
-  status: CompanyStatus;
+  status: OrganizationStatus;
   bannerLabel?: string;
 }
+
+// Compat aliases (mantém sprints anteriores funcionando)
+export type CompanyCategory = OrganizationCategory;
+export type CompanyStatus = OrganizationStatus;
+export type Company = Organization;
+export type OrganizationDTO = Organization;
+
 
 export type Role = "admin" | "coach" | "nutritionist" | "student" | "patient";
 
