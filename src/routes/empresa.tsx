@@ -69,8 +69,8 @@ function EmpresaPage() {
         </motion.p>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 md:px-6 py-8 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-8 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
+        <div className={cn("grid gap-4 mx-auto", companies.length === 1 ? "max-w-md" : "sm:grid-cols-2 xl:grid-cols-3")}>
           {companies.map((c, i) => {
             const isSelecting = selectingId === c.id;
             const dim = selectingId && !isSelecting;
