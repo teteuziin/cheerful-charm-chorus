@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Building2, MapPin, Users } from "lucide-react";
+import { ArrowRight, Building2, MapPin } from "lucide-react";
 import { useState } from "react";
 import { companies } from "@/config/companies";
 import { useCompanyStore } from "@/store/companyStore";
