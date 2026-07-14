@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Building2, MapPin, Users } from "lucide-react";
+import { ArrowRight, Building2, MapPin } from "lucide-react";
 import { useState } from "react";
 import { companies } from "@/config/companies";
 import { useCompanyStore } from "@/store/companyStore";
@@ -69,8 +69,8 @@ function EmpresaPage() {
         </motion.p>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 md:px-6 py-8 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-8 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
+        <div className={cn("grid gap-4 mx-auto", companies.length === 1 ? "max-w-md" : "sm:grid-cols-2 xl:grid-cols-3")}>
           {companies.map((c, i) => {
             const isSelecting = selectingId === c.id;
             const dim = selectingId && !isSelecting;
@@ -100,7 +100,7 @@ function EmpresaPage() {
                 {/* Banner (contido dentro do card) */}
                 <div
                   aria-hidden
-                  className="relative h-20 w-full"
+                  className="relative h-16 w-full"
                   style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
                 >
                   <div className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_20%_10%,white,transparent_45%),radial-gradient(circle_at_85%_90%,white,transparent_40%)]" />
@@ -111,17 +111,17 @@ function EmpresaPage() {
                   )}
                 </div>
 
-                {/* Header: logo + status */}
-                <div className="px-5 -mt-7 flex items-start justify-between gap-3">
+                {/* Header: logo + status (fora do banner) */}
+                <div className="px-5 pt-4 flex items-start justify-between gap-3">
                   <span
-                    className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl text-white text-xl font-bold shadow-[var(--shadow-elevated)] ring-4 ring-card"
+                    className="relative -mt-10 grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-white text-2xl font-bold shadow-[var(--shadow-elevated)] ring-4 ring-card"
                     style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
                   >
                     {c.logoInitial}
                   </span>
                   <span
                     className={cn(
-                      "mt-8 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                      "rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
                       st.className,
                     )}
                   >
@@ -140,9 +140,6 @@ function EmpresaPage() {
 
                   <div className="mt-4 pt-4 border-t border-border/60 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 text-xs text-muted-foreground min-w-0">
-                      <span className="inline-flex items-center gap-1 shrink-0">
-                        <Users className="h-3.5 w-3.5" /> {c.students.toLocaleString("pt-BR")}
-                      </span>
                       <span className="inline-flex items-center gap-1 min-w-0">
                         <MapPin className="h-3.5 w-3.5 shrink-0" />
                         <span className="truncate">{c.city}</span>
