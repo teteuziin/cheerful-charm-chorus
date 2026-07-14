@@ -18,11 +18,7 @@ export const useCompanyStore = create<CompanyState>()(
     }),
     {
       name: STORAGE_KEYS.company,
-      storage: createJSONStorage(() =>
-        typeof window === "undefined"
-          ? ({ getItem: () => null, setItem: () => {}, removeItem: () => {} } as Storage)
-          : window.localStorage,
-      ),
+      storage: createJSONStorage(() => (typeof window !== 'undefined' ? window.localStorage : (undefined as unknown as Storage))),
     },
   ),
 );

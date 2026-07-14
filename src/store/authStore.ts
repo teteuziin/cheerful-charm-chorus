@@ -27,11 +27,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: STORAGE_KEYS.auth,
-      storage: createJSONStorage(() =>
-        typeof window === "undefined"
-          ? ({ getItem: () => null, setItem: () => {}, removeItem: () => {} } as Storage)
-          : window.localStorage,
-      ),
+      storage: createJSONStorage(() => (typeof window !== 'undefined' ? window.localStorage : (undefined as unknown as Storage))),
       partialize: (s) => ({ session: s.session, refreshToken: s.refreshToken, isAuthenticated: s.isAuthenticated }),
       onRehydrateStorage: () => (state) => {
         state?.markReady();
