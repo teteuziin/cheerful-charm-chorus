@@ -9,38 +9,157 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as EmpresaRouteImport } from './routes/empresa'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppPerfilRouteImport } from './routes/_app/perfil'
+import { Route as AppJornadaRouteImport } from './routes/_app/jornada'
+import { Route as AppHojeRouteImport } from './routes/_app/hoje'
+import { Route as AppEquipeRouteImport } from './routes/_app/equipe'
+import { Route as AppBibliotecaRouteImport } from './routes/_app/biblioteca'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpresaRoute = EmpresaRouteImport.update({
+  id: '/empresa',
+  path: '/empresa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppPerfilRoute = AppPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppJornadaRoute = AppJornadaRouteImport.update({
+  id: '/jornada',
+  path: '/jornada',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHojeRoute = AppHojeRouteImport.update({
+  id: '/hoje',
+  path: '/hoje',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEquipeRoute = AppEquipeRouteImport.update({
+  id: '/equipe',
+  path: '/equipe',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBibliotecaRoute = AppBibliotecaRouteImport.update({
+  id: '/biblioteca',
+  path: '/biblioteca',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/empresa': typeof EmpresaRoute
+  '/login': typeof LoginRoute
+  '/biblioteca': typeof AppBibliotecaRoute
+  '/equipe': typeof AppEquipeRoute
+  '/hoje': typeof AppHojeRoute
+  '/jornada': typeof AppJornadaRoute
+  '/perfil': typeof AppPerfilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/empresa': typeof EmpresaRoute
+  '/login': typeof LoginRoute
+  '/biblioteca': typeof AppBibliotecaRoute
+  '/equipe': typeof AppEquipeRoute
+  '/hoje': typeof AppHojeRoute
+  '/jornada': typeof AppJornadaRoute
+  '/perfil': typeof AppPerfilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/empresa': typeof EmpresaRoute
+  '/login': typeof LoginRoute
+  '/_app/biblioteca': typeof AppBibliotecaRoute
+  '/_app/equipe': typeof AppEquipeRoute
+  '/_app/hoje': typeof AppHojeRoute
+  '/_app/jornada': typeof AppJornadaRoute
+  '/_app/perfil': typeof AppPerfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/empresa'
+    | '/login'
+    | '/biblioteca'
+    | '/equipe'
+    | '/hoje'
+    | '/jornada'
+    | '/perfil'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/empresa'
+    | '/login'
+    | '/biblioteca'
+    | '/equipe'
+    | '/hoje'
+    | '/jornada'
+    | '/perfil'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/empresa'
+    | '/login'
+    | '/_app/biblioteca'
+    | '/_app/equipe'
+    | '/_app/hoje'
+    | '/_app/jornada'
+    | '/_app/perfil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  EmpresaRoute: typeof EmpresaRoute
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empresa': {
+      id: '/empresa'
+      path: '/empresa'
+      fullPath: '/empresa'
+      preLoaderRoute: typeof EmpresaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +167,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/perfil': {
+      id: '/_app/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AppPerfilRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/jornada': {
+      id: '/_app/jornada'
+      path: '/jornada'
+      fullPath: '/jornada'
+      preLoaderRoute: typeof AppJornadaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/hoje': {
+      id: '/_app/hoje'
+      path: '/hoje'
+      fullPath: '/hoje'
+      preLoaderRoute: typeof AppHojeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/equipe': {
+      id: '/_app/equipe'
+      path: '/equipe'
+      fullPath: '/equipe'
+      preLoaderRoute: typeof AppEquipeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/biblioteca': {
+      id: '/_app/biblioteca'
+      path: '/biblioteca'
+      fullPath: '/biblioteca'
+      preLoaderRoute: typeof AppBibliotecaRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppBibliotecaRoute: typeof AppBibliotecaRoute
+  AppEquipeRoute: typeof AppEquipeRoute
+  AppHojeRoute: typeof AppHojeRoute
+  AppJornadaRoute: typeof AppJornadaRoute
+  AppPerfilRoute: typeof AppPerfilRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppBibliotecaRoute: AppBibliotecaRoute,
+  AppEquipeRoute: AppEquipeRoute,
+  AppHojeRoute: AppHojeRoute,
+  AppJornadaRoute: AppJornadaRoute,
+  AppPerfilRoute: AppPerfilRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  EmpresaRoute: EmpresaRoute,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
