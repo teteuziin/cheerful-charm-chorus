@@ -1,6 +1,7 @@
 // TrevoOne — domain interfaces (preparadas para Laravel + MySQL, sem conexão nesta fase)
 
 export type CompanyCategory =
+  | "Consultoria Premium"
   | "Academia Premium"
   | "Consultoria"
   | "Nutrição"
