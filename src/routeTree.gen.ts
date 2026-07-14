@@ -13,6 +13,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as EmpresaRouteImport } from './routes/empresa'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTodayRouteImport } from './routes/_app/today'
 import { Route as AppPerfilRouteImport } from './routes/_app/perfil'
 import { Route as AppJornadaRouteImport } from './routes/_app/jornada'
 import { Route as AppHojeRouteImport } from './routes/_app/hoje'
@@ -37,6 +38,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppTodayRoute = AppTodayRouteImport.update({
+  id: '/today',
+  path: '/today',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppPerfilRoute = AppPerfilRouteImport.update({
   id: '/perfil',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/hoje': typeof AppHojeRoute
   '/jornada': typeof AppJornadaRoute
   '/perfil': typeof AppPerfilRoute
+  '/today': typeof AppTodayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/hoje': typeof AppHojeRoute
   '/jornada': typeof AppJornadaRoute
   '/perfil': typeof AppPerfilRoute
+  '/today': typeof AppTodayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/_app/hoje': typeof AppHojeRoute
   '/_app/jornada': typeof AppJornadaRoute
   '/_app/perfil': typeof AppPerfilRoute
+  '/_app/today': typeof AppTodayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/hoje'
     | '/jornada'
     | '/perfil'
+    | '/today'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/hoje'
     | '/jornada'
     | '/perfil'
+    | '/today'
   id:
     | '__root__'
     | '/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/_app/hoje'
     | '/_app/jornada'
     | '/_app/perfil'
+    | '/_app/today'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -166,6 +178,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/today': {
+      id: '/_app/today'
+      path: '/today'
+      fullPath: '/today'
+      preLoaderRoute: typeof AppTodayRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/perfil': {
       id: '/_app/perfil'
@@ -211,6 +230,7 @@ interface AppRouteChildren {
   AppHojeRoute: typeof AppHojeRoute
   AppJornadaRoute: typeof AppJornadaRoute
   AppPerfilRoute: typeof AppPerfilRoute
+  AppTodayRoute: typeof AppTodayRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -219,6 +239,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppHojeRoute: AppHojeRoute,
   AppJornadaRoute: AppJornadaRoute,
   AppPerfilRoute: AppPerfilRoute,
+  AppTodayRoute: AppTodayRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

@@ -78,7 +78,7 @@ export function JourneyHeroCard({ data }: { data: JourneyDTO }) {
           size="lg"
           className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 font-semibold rounded-full px-6"
         >
-          Continuar Jornada
+          Continuar Treino
           <ArrowRight className="ml-1.5 h-4 w-4" />
         </Button>
       </div>
