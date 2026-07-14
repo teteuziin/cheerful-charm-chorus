@@ -60,10 +60,10 @@ function LoginPage() {
   const grad = company.gradient ?? [company.color, company.color];
 
   return (
-    <div className="min-h-dvh w-full overflow-x-hidden bg-background lg:grid lg:grid-cols-[1fr_1.05fr]">
-      {/* Hero — compacto */}
+    <div className="min-h-dvh w-full overflow-x-hidden bg-background lg:grid lg:grid-cols-[0.9fr_1.1fr]">
+      {/* Hero — compacto e refinado */}
       <aside
-        className="relative overflow-hidden text-white px-6 md:px-8 lg:px-12 pt-[calc(env(safe-area-inset-top)+1rem)] pb-8 lg:min-h-dvh lg:flex lg:flex-col lg:justify-between"
+        className="relative overflow-hidden text-white px-4 md:px-6 lg:px-10 pt-[calc(env(safe-area-inset-top)+0.75rem)] pb-6 lg:min-h-dvh lg:flex lg:flex-col lg:justify-between"
         style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]} 0%, ${grad[1]} 100%)` }}
       >
         <div
@@ -71,13 +71,13 @@ function LoginPage() {
           className="absolute inset-0 opacity-40 [background:radial-gradient(circle_at_15%_10%,white,transparent_40%),radial-gradient(circle_at_85%_85%,white,transparent_45%)]"
         />
         <div className="relative flex items-center justify-between">
-          <Logo size="lg" tone="light" />
+          <Logo size="md" tone="light" />
           <div className="lg:hidden">
             <ThemeSwitch />
           </div>
         </div>
 
-        <div className="relative mt-5 lg:mt-0 max-w-lg">
+        <div className="relative mt-3 lg:mt-0 max-w-lg">
           <motion.span
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ function LoginPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.05]"
+            className="mt-2 text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-[1.1]"
           >
             Bem-vindo novamente <span className="inline-block">👋</span>
           </motion.h1>
@@ -97,18 +97,18 @@ function LoginPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mt-3 text-sm md:text-base text-white/90 max-w-md"
+            className="mt-2 text-sm md:text-[15px] text-white/90 max-w-md"
           >
-            Continue sua jornada de evolução — uma plataforma feita para conectar você e sua equipe de saúde.
+            Continue sua jornada de evolução.
           </motion.p>
 
-          <div className="hidden lg:flex mt-6 items-center gap-3 text-sm text-white/85">
+          <div className="hidden lg:flex mt-5 items-center gap-2 text-xs text-white/85">
             <ShieldCheck className="h-4 w-4" />
             Acesso seguro e criptografado
           </div>
         </div>
 
-        <div className="hidden lg:block relative text-xs text-white/70 mt-4">
+        <div className="hidden lg:block relative text-[11px] text-white/70 mt-3">
           © {new Date().getFullYear()} TrevoOne
         </div>
       </aside>
