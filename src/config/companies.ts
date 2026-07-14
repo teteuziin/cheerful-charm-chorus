@@ -2,7 +2,7 @@ import type { Company } from "@/types";
 
 /**
  * Empresas cadastradas na plataforma TrevoOne.
- * A arquitetura é multiempresa — a interface esconde a seleção
+ * Arquitetura multiempresa — a interface esconde a seleção
  * automaticamente enquanto houver apenas uma empresa disponível.
  */
 export const companies: Company[] = [
@@ -15,7 +15,7 @@ export const companies: Company[] = [
     color: "#F97316",
     gradient: ["#B45309", "#F97316"],
     logoInitial: "S",
-    city: "Curitiba · PR",
+    city: "Salvador · BA",
     students: 0,
     status: "active",
   },

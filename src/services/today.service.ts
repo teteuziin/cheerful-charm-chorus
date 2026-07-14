@@ -8,7 +8,7 @@ export async function getToday(): Promise<TodayDTO> {
     greetingName: "João",
     dateISO: new Date().toISOString(),
     journey: {
-      programName: "Trevo Strong",
+      programName: "Saiya Shape Performance",
       goal: "Hipertrofia",
       currentDay: 18,
       totalDays: 90,
