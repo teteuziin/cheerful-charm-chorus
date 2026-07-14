@@ -69,7 +69,7 @@ function LoginPage() {
 
   if (!company) return null;
   const grad = company.gradient ?? [company.color, company.color];
-  const showSwitcher = companies.length > 1;
+
 
   return (
     <div className="relative min-h-dvh w-full overflow-x-hidden bg-background lg:grid lg:grid-cols-[0.85fr_1.15fr]">
@@ -108,8 +108,9 @@ function LoginPage() {
             Bem-vindo novamente <span className="inline-block">👋</span>
           </motion.h1>
           <p className="hidden lg:block mt-2 text-[15px] text-white/90 max-w-md">
-            Continue evoluindo, um dia de cada vez.
+            Continue sua evolução.
           </p>
+
         </div>
 
         <div className="hidden lg:block relative text-[11px] text-white/70">
@@ -130,32 +131,31 @@ function LoginPage() {
             transition={{ duration: 0.4 }}
             className="w-full max-w-md"
           >
-            {/* Chip empresa — mostra apenas quando há mais de uma */}
-            {showSwitcher && (
-              <div className="mb-6 flex items-center gap-3 rounded-2xl border border-border/60 bg-surface p-3">
-                <span
-                  className="grid h-11 w-11 place-items-center rounded-xl text-white text-sm font-bold shrink-0 shadow-[var(--shadow-soft)]"
-                  style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
-                >
-                  {company.logoInitial}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-semibold text-foreground truncate">{company.name}</div>
-                  <div className="text-xs text-muted-foreground truncate">{company.category}</div>
-                </div>
-                <Link
-                  to="/empresa"
-                  className="text-xs font-semibold text-primary hover:underline shrink-0"
-                >
-                  Trocar
-                </Link>
+            {/* Chip da organização selecionada */}
+            <div className="mb-6 flex items-center gap-3 rounded-2xl border border-border/60 bg-surface p-3">
+              <span
+                className="grid h-11 w-11 place-items-center rounded-xl text-white text-sm font-bold shrink-0 shadow-[var(--shadow-soft)]"
+                style={{ backgroundImage: `linear-gradient(135deg, ${grad[0]}, ${grad[1]})` }}
+              >
+                {company.logoInitial}
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-semibold text-foreground truncate">{company.name}</div>
+                <div className="text-xs text-muted-foreground truncate">{company.category}</div>
               </div>
-            )}
+              <Link
+                to="/empresa"
+                className="text-xs font-semibold text-primary hover:underline shrink-0"
+              >
+                Trocar
+              </Link>
+            </div>
 
             <h2 className="text-2xl md:text-[28px] font-bold tracking-tight text-foreground">
-              Entrar
+              Bem-vindo novamente <span className="inline-block">👋</span>
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">Acesse sua jornada.</p>
+            <p className="mt-1 text-sm text-muted-foreground">Continue sua evolução.</p>
+
 
             <form onSubmit={onSubmit} className="mt-8 space-y-5" noValidate>
               <div className="space-y-2">
