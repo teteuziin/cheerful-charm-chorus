@@ -254,7 +254,7 @@ function LoginPage() {
               </motion.div>
 
               <p className="text-center text-xs text-muted-foreground">
-                Nesta fase de demonstração, qualquer usuário e senha são aceitos.
+                Acesso protegido · Autenticação via API TrevoOne
               </p>
             </form>
           </motion.div>
